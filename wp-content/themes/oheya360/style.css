@@ -1926,7 +1926,6 @@ h1, h2, h3, h4, h5, h6 {
 .matterport-facade {
   position: relative;
   width: 100%;
-  aspect-ratio: 16 / 10;
   border-radius: var(--radius-lg);
   overflow: hidden;
   cursor: pointer;

@@ -262,7 +262,7 @@
       const iframe = document.createElement('iframe');
       iframe.src = src;
       iframe.className = 'hero-preview-iframe';
-      iframe.allow = 'xr-spatial-tracking; fullscreen';
+      iframe.allow = 'xr-spatial-tracking, fullscreen';
       // Note: camera/microphone/vr omitted intentionally — facade is display-only;
       // these permissions are not required for the standard Matterport viewer embed.
       iframe.setAttribute('allowfullscreen', '');
@@ -274,6 +274,7 @@
       facade.removeAttribute('role');
       facade.removeAttribute('tabindex');
       facade.removeAttribute('aria-label');
+      facade.blur();
       facade.removeEventListener('click', activateFacade);
       facade.removeEventListener('keydown', keyHandler);
     };
