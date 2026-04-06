@@ -74,15 +74,16 @@
               width="800"
               height="500"
               loading="eager"
+              fetchpriority="high"
             >
             <div class="matterport-facade-overlay">
-              <button class="matterport-play-btn" aria-label="バーチャルツアーを開始">
+              <div class="matterport-play-btn" aria-hidden="true">
                 <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
                   <circle cx="32" cy="32" r="32" fill="rgba(0,0,0,0.6)"/>
                   <polygon points="26,20 26,44 48,32" fill="#ffffff"/>
                 </svg>
                 <span>バーチャルツアーを体験</span>
-              </button>
+              </div>
             </div>
           </div>
         </div>

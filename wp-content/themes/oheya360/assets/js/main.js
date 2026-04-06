@@ -248,6 +248,13 @@
   const facade = document.getElementById('matterport-facade');
 
   if (facade) {
+    const keyHandler = (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        activateFacade();
+      }
+    };
+
     const activateFacade = () => {
       const src = facade.getAttribute('data-src');
       if (!src) return;
@@ -256,21 +263,19 @@
       iframe.src = src;
       iframe.className = 'hero-preview-iframe';
       iframe.allow = 'xr-spatial-tracking; fullscreen';
+      // Note: camera/microphone/vr omitted intentionally — facade is display-only;
+      // these permissions are not required for the standard Matterport viewer embed.
       iframe.setAttribute('allowfullscreen', '');
       iframe.setAttribute('title', 'Matterportバーチャルツアーデモ');
 
       facade.innerHTML = '';
       facade.appendChild(iframe);
       facade.style.cursor = 'default';
+      facade.removeAttribute('role');
+      facade.removeAttribute('tabindex');
+      facade.removeAttribute('aria-label');
       facade.removeEventListener('click', activateFacade);
       facade.removeEventListener('keydown', keyHandler);
-    };
-
-    const keyHandler = (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        activateFacade();
-      }
     };
 
     facade.addEventListener('click', activateFacade);

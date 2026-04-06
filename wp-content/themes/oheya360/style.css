@@ -1619,12 +1619,6 @@ h1, h2, h3, h4, h5, h6 {
   flex-shrink: 0;
 }
 
-.hero-preview-iframe {
-  width: 100%;
-  height: 100%;
-  border: none;
-  display: block;
-}
 
 @media (max-width: 1024px) {
   .hero-split {
@@ -1978,7 +1972,7 @@ h1, h2, h3, h4, h5, h6 {
   transition: transform var(--transition);
 }
 
-.matterport-play-btn:hover {
+.matterport-facade:hover .matterport-play-btn {
   transform: scale(1.08);
 }
 
