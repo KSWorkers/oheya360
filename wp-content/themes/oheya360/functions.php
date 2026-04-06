@@ -368,3 +368,72 @@ function oheya360_localize_script() {
     ]);
 }
 add_action('wp_enqueue_scripts', 'oheya360_localize_script');
+
+// =========================================
+// 構造化データ（JSON-LD）
+// =========================================
+function oheya360_structured_data() {
+    if ( ! is_front_page() ) return;
+
+    $data = [
+        '@context' => 'https://schema.org',
+        '@graph'   => [
+            [
+                '@type'       => 'LocalBusiness',
+                '@id'         => 'https://oheya360.net/#business',
+                'name'        => 'お部屋360°',
+                'url'         => 'https://oheya360.net',
+                'logo'        => get_template_directory_uri() . '/assets/images/og-default.jpg',
+                'description' => 'Matterportによる3Dバーチャルツアー・デジタルツイン制作サービス。不動産・ホテル・店舗・施設など全国対応。最短3日納品。',
+                'email'       => 'info@oheya360.net',
+                'areaServed'  => '日本',
+                'priceRange'  => '¥39,800〜',
+                'serviceType' => '3Dバーチャルツアー制作・Matterport撮影・デジタルツイン構築',
+            ],
+            [
+                '@type'       => 'WebSite',
+                '@id'         => 'https://oheya360.net/#website',
+                'url'         => 'https://oheya360.net',
+                'name'        => 'お部屋360°',
+                'inLanguage'  => 'ja',
+                'publisher'   => [ '@id' => 'https://oheya360.net/#business' ],
+            ],
+        ],
+    ];
+
+    echo '<script type="application/ld+json">' . wp_json_encode( $data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>' . "\n";
+}
+add_action('wp_head', 'oheya360_structured_data');
+
+function oheya360_post_structured_data() {
+    if ( ! is_single() ) return;
+
+    $post_type = get_post_type();
+    if ( $post_type === 'work' ) {
+        $data = [
+            '@context' => 'https://schema.org',
+            '@type'    => 'CreativeWork',
+            'name'     => get_the_title(),
+            'url'      => get_permalink(),
+            'image'    => get_the_post_thumbnail_url( get_the_ID(), 'og-image' ) ?: '',
+        ];
+    } else {
+        $data = [
+            '@context'      => 'https://schema.org',
+            '@type'         => 'Article',
+            'headline'      => get_the_title(),
+            'url'           => get_permalink(),
+            'datePublished' => get_the_date('c'),
+            'dateModified'  => get_the_modified_date('c'),
+            'image'         => get_the_post_thumbnail_url( get_the_ID(), 'og-image' ) ?: '',
+            'publisher'     => [
+                '@type' => 'Organization',
+                'name'  => 'お部屋360°',
+                'url'   => 'https://oheya360.net',
+            ],
+        ];
+    }
+
+    echo '<script type="application/ld+json">' . wp_json_encode( $data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>' . "\n";
+}
+add_action('wp_head', 'oheya360_post_structured_data');
