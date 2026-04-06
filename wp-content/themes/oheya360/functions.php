@@ -62,9 +62,19 @@ function oheya360_enqueue_assets() {
             ['oheya360-style'],
             $ver
         );
+        // CF7 は contact ページのみで読み込む
+        if ( ! is_page('contact') ) {
+            wp_dequeue_script('contact-form-7');
+            wp_dequeue_style('contact-form-7');
+        }
     }
 }
 add_action('wp_enqueue_scripts', 'oheya360_enqueue_assets');
+
+function oheya360_preload_fonts() {
+    echo '<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&family=Inter:wght@400;500;600;700;800&display=swap">' . "\n";
+}
+add_action('wp_head', 'oheya360_preload_fonts', 1);
 
 // =========================================
 // カスタム投稿タイプ：制作事例
@@ -282,6 +292,10 @@ remove_action('wp_head', 'rsd_link');
 remove_action('wp_head', 'wlwmanifest_link');
 remove_action('wp_head', 'wp_generator');
 remove_action('wp_head', 'wp_shortlink_wp_head');
+remove_action('wp_head', 'print_emoji_detection_script', 7);
+remove_action('wp_print_styles', 'print_emoji_styles');
+remove_action('admin_print_scripts', 'print_emoji_detection_script');
+remove_action('admin_print_styles', 'print_emoji_styles');
 
 // =========================================
 // 抜粋の長さ
