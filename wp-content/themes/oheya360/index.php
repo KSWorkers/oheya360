@@ -62,14 +62,29 @@
             <span class="hero-eyebrow-dot"></span>
             LIVE DEMO
           </div>
-          <iframe
-            class="hero-preview-iframe"
-            src="https://my.matterport.com/show/?m=SxQL3iGyvpk&play=1&qs=1&lang=ja"
-            allowfullscreen
-            allow="xr-spatial-tracking"
-            loading="lazy"
-            title="Matterportバーチャルツアーデモ"
-          ></iframe>
+          <div class="matterport-facade" id="matterport-facade"
+               data-src="https://my.matterport.com/show/?m=SxQL3iGyvpk&play=1&qs=1&lang=ja"
+               role="button"
+               tabindex="0"
+               aria-label="Matterportバーチャルツアーデモを開始する">
+            <img
+              src="https://my.matterport.com/api/v1/player/models/SxQL3iGyvpk/thumb?width=800&dpr=1&disable_cookies=0"
+              alt="Matterportバーチャルツアーデモのサムネイル"
+              class="matterport-facade-thumb"
+              width="800"
+              height="500"
+              loading="eager"
+            >
+            <div class="matterport-facade-overlay">
+              <button class="matterport-play-btn" aria-label="バーチャルツアーを開始">
+                <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+                  <circle cx="32" cy="32" r="32" fill="rgba(0,0,0,0.6)"/>
+                  <polygon points="26,20 26,44 48,32" fill="#ffffff"/>
+                </svg>
+                <span>バーチャルツアーを体験</span>
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 

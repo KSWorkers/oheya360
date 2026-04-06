@@ -242,4 +242,39 @@
     sections.forEach(s => sectionObserver.observe(s));
   }
 
+  // =========================================
+  // Matterport ファサード
+  // =========================================
+  const facade = document.getElementById('matterport-facade');
+
+  if (facade) {
+    const activateFacade = () => {
+      const src = facade.getAttribute('data-src');
+      if (!src) return;
+
+      const iframe = document.createElement('iframe');
+      iframe.src = src;
+      iframe.className = 'hero-preview-iframe';
+      iframe.allow = 'xr-spatial-tracking; fullscreen';
+      iframe.setAttribute('allowfullscreen', '');
+      iframe.setAttribute('title', 'Matterportバーチャルツアーデモ');
+
+      facade.innerHTML = '';
+      facade.appendChild(iframe);
+      facade.style.cursor = 'default';
+      facade.removeEventListener('click', activateFacade);
+      facade.removeEventListener('keydown', keyHandler);
+    };
+
+    const keyHandler = (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        activateFacade();
+      }
+    };
+
+    facade.addEventListener('click', activateFacade);
+    facade.addEventListener('keydown', keyHandler);
+  }
+
 })();
