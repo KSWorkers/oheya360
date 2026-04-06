@@ -66,13 +66,15 @@ function oheya360_enqueue_assets() {
         if ( ! is_page('contact') ) {
             wp_dequeue_script('contact-form-7');
             wp_dequeue_style('contact-form-7');
+            wp_dequeue_style('oheya360-cf7');
         }
     }
 }
 add_action('wp_enqueue_scripts', 'oheya360_enqueue_assets');
 
 function oheya360_preload_fonts() {
-    echo '<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&family=Inter:wght@400;500;600;700;800&display=swap">' . "\n";
+    echo '<link rel="preconnect" href="https://fonts.googleapis.com">' . "\n";
+    echo '<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>' . "\n";
 }
 add_action('wp_head', 'oheya360_preload_fonts', 1);
 
