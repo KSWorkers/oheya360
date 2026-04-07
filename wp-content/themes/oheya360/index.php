@@ -325,6 +325,64 @@
 </section>
 
 <!-- =========================================
+   TESTIMONIALS
+   ========================================= -->
+<section class="section section--surface" id="testimonials">
+  <div class="container">
+    <div class="text-center reveal" style="margin-bottom:var(--spacing-lg);">
+      <span class="section-label">Testimonials</span>
+      <h2 class="section-title">お客様の声</h2>
+      <p class="section-subtitle" style="margin:0 auto;">実際にご利用いただいたお客様からのフィードバック</p>
+    </div>
+
+    <div class="testimonials-grid">
+      <?php
+      $testimonials = [
+        [
+          'quote'    => 'Matterportの撮影から納品まで非常にスピーディーで、物件のオンライン内見率が大幅に向上しました。問い合わせ数も増加し、費用対効果が高いと感じています。',
+          'name'     => '田中 様',
+          'role'     => '不動産会社 代表',
+          'industry' => '不動産',
+        ],
+        [
+          'quote'    => '店舗のバーチャルツアーをSNSで公開したところ、遠方からの来店客が増えました。撮影当日の対応も丁寧で、スタッフも安心して任せられました。',
+          'name'     => '山田 様',
+          'role'     => '飲食店オーナー',
+          'industry' => '飲食',
+        ],
+        [
+          'quote'    => '採用活動でオフィスツアーを活用しています。候補者がオフィスの雰囲気を事前に把握できるため、入社後のギャップが減り定着率が改善されました。',
+          'name'     => '鈴木 様',
+          'role'     => '人事部長',
+          'industry' => 'IT企業',
+        ],
+      ];
+      foreach ( $testimonials as $i => $t ) :
+      ?>
+      <div class="testimonial-card reveal reveal-delay-<?php echo $i + 1; ?>">
+        <div class="testimonial-quote">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <path d="M9.5 14C7 14 5 16 5 18.5C5 21 7 23 9.5 23C12 23 14 21 14 18.5C14 16 12 14 9.5 14ZM9.5 14C9.5 10 12 7 16 6M22.5 14C20 14 18 16 18 18.5C18 21 20 23 22.5 23C25 23 27 21 27 18.5C27 16 25 14 22.5 14ZM22.5 14C22.5 10 25 7 29 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <p class="testimonial-text"><?php echo esc_html($t['quote']); ?></p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar" aria-hidden="true">
+            <?php echo mb_substr($t['name'], 0, 1); ?>
+          </div>
+          <div>
+            <div class="testimonial-name"><?php echo esc_html($t['name']); ?></div>
+            <div class="testimonial-role"><?php echo esc_html($t['role']); ?></div>
+          </div>
+          <span class="tag" style="margin-left:auto;"><?php echo esc_html($t['industry']); ?></span>
+        </div>
+      </div>
+      <?php endforeach; ?>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================
    PRICING (v2)
    ========================================= -->
 <section class="section section--dark" id="pricing">
