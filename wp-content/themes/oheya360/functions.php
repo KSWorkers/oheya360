@@ -434,6 +434,7 @@ function oheya360_post_structured_data() {
             'author'    => [
                 '@type' => 'Organization',
                 '@id'   => 'https://oheya360.net/#business',
+                'name'  => 'お部屋360°',
             ],
         ];
     }
