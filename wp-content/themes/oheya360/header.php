@@ -3,7 +3,17 @@
 <head>
   <meta charset="<?php bloginfo('charset'); ?>">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="<?php bloginfo('description'); ?>">
+<?php
+// Yoast SEO が無効の場合のみ description を出力（OGP は functions.php の oheya360_ogp_tags で対応済）
+if ( ! defined('WPSEO_VERSION') ) :
+    if ( is_singular() && ! is_front_page() ) {
+        $desc = wp_trim_words( strip_tags( get_the_excerpt() ?: get_the_content() ), 30, '...' );
+    } else {
+        $desc = 'Matterportによる3Dバーチャルツアー・デジタルツイン制作。不動産・ホテル・店舗など全国対応。最短3日納品・¥39,800〜。';
+    }
+?>
+  <meta name="description" content="<?php echo esc_attr($desc); ?>">
+<?php endif; ?>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <?php wp_head(); ?>
