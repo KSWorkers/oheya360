@@ -1462,6 +1462,10 @@ h1, h2, h3, h4, h5, h6 {
     grid-template-columns: 1fr;
     gap: 3rem;
   }
+
+  .grid-3 {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 768px) {
@@ -1513,6 +1517,20 @@ h1, h2, h3, h4, h5, h6 {
     grid-template-columns: 60px 1fr;
     gap: 1.5rem;
   }
+
+  .section {
+    padding: var(--spacing-lg) 0;
+  }
+
+  .section-title {
+    font-size: clamp(1.75rem, 6vw, 2.5rem);
+  }
+
+  /* Process sticky サイドバーをノーマルフローに */
+  .process-list + div[style*="sticky"] {
+    position: relative !important;
+    top: auto !important;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1526,6 +1544,16 @@ h1, h2, h3, h4, h5, h6 {
 
   .cta-actions {
     flex-direction: column;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .cta-actions .btn {
+    width: 100%;
+    justify-content: center;
   }
 }
 
