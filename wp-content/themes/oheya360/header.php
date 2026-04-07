@@ -21,6 +21,8 @@ if ( ! defined('WPSEO_VERSION') ) :
 <body <?php body_class(); ?>>
 <?php wp_body_open(); ?>
 
+<a class="skip-link" href="#main-content">メインコンテンツへスキップ</a>
+
 <header class="site-header" id="site-header">
   <div class="header-inner">
 
