@@ -279,11 +279,11 @@ function oheya360_ogp_tags() {
     <meta property="og:description" content="<?php echo esc_attr(wp_strip_all_tags($desc)); ?>">
     <meta property="og:url" content="<?php echo esc_url($url); ?>">
     <meta property="og:image" content="<?php echo esc_url($image); ?>">
+    <meta property="og:locale" content="ja_JP">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="<?php echo esc_attr($title); ?>">
     <meta name="twitter:description" content="<?php echo esc_attr(wp_strip_all_tags($desc)); ?>">
     <meta name="twitter:image" content="<?php echo esc_url($image); ?>">
-    <meta property="og:locale" content="ja_JP">
     <?php
 }
 add_action('wp_head', 'oheya360_ogp_tags');
