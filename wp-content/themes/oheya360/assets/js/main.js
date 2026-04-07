@@ -32,7 +32,7 @@
     hamburger.addEventListener('click', () => {
       const isOpen = mobileMenu.classList.toggle('open');
       hamburger.classList.toggle('active');
-      hamburger.setAttribute('aria-expanded', isOpen);
+      hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
       document.body.style.overflow = isOpen ? 'hidden' : '';
     });
 
@@ -89,9 +89,6 @@
     const icon     = item.querySelector('.faq-icon');
 
     if (!question || !answer) return;
-
-    // 初期化：display:none インラインスタイルを削除（CSS で管理）
-    answer.style.display = '';
 
     // 初期状態の同期：aria-expanded="true" の場合は open クラスを付与
     if (question.getAttribute('aria-expanded') === 'true') {
