@@ -426,8 +426,9 @@
             納品後30日サポート
           </li>
         </ul>
-        <a href="<?php echo esc_url(home_url('/contact/')); ?>" class="btn btn--outline" style="width:100%;justify-content:center;">
-          お問い合わせ
+        <a href="<?php echo esc_url(home_url('/contact/?plan=light')); ?>" class="btn btn--outline" style="width:100%;justify-content:center;">
+          ライトプランで相談する
+          <?php echo oheya360_icon('arrow-right'); ?>
         </a>
       </div>
 
@@ -471,8 +472,8 @@
             納品後60日サポート
           </li>
         </ul>
-        <a href="<?php echo esc_url(home_url('/contact/')); ?>" class="btn btn--primary" style="width:100%;justify-content:center;">
-          お問い合わせ
+        <a href="<?php echo esc_url(home_url('/contact/?plan=standard')); ?>" class="btn btn--primary" style="width:100%;justify-content:center;">
+          スタンダードで始める
           <?php echo oheya360_icon('arrow-right'); ?>
         </a>
       </div>
@@ -514,8 +515,9 @@
             長期サポート・保守契約
           </li>
         </ul>
-        <a href="<?php echo esc_url(home_url('/contact/')); ?>" class="btn btn--outline" style="width:100%;justify-content:center;">
-          無料相談する
+        <a href="<?php echo esc_url(home_url('/contact/?plan=premium')); ?>" class="btn btn--outline" style="width:100%;justify-content:center;">
+          プレミアム見積もりを依頼
+          <?php echo oheya360_icon('arrow-right'); ?>
         </a>
       </div>
 

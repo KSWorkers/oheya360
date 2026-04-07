@@ -93,6 +93,19 @@ get_header();
       <div class="contact-form-wrapper reveal reveal-delay-1">
         <?php if (shortcode_exists('contact-form-7')) : ?>
           <?php
+$plan = isset($_GET['plan']) ? sanitize_key($_GET['plan']) : '';
+$plan_labels = [
+  'light'    => 'ライトプラン（¥39,800〜）',
+  'standard' => 'スタンダードプラン（¥79,800〜）',
+  'premium'  => 'プレミアムプラン（要見積もり）',
+];
+if ($plan && isset($plan_labels[$plan])) :
+?>
+<div style="background:var(--color-accent-glow); border:1px solid rgba(0,200,255,0.3); border-radius:var(--radius-md); padding:1rem 1.5rem; margin-bottom:1.5rem; font-size:0.9375rem;">
+  選択中のプラン：<strong style="color:var(--color-accent);"><?php echo esc_html($plan_labels[$plan]); ?></strong>
+</div>
+<?php endif; ?>
+          <?php
           // Contact Form 7 のフォームIDを確認して変更してください
           $cf7_id = get_option('oheya360_cf7_id', 1);
           echo do_shortcode('[contact-form-7 id="' . intval($cf7_id) . '" title="お問い合わせ"]');
