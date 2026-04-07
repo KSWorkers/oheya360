@@ -368,7 +368,7 @@
         <p class="testimonial-text"><?php echo esc_html($t['quote']); ?></p>
         <div class="testimonial-author">
           <div class="testimonial-avatar" aria-hidden="true">
-            <?php echo mb_substr($t['name'], 0, 1); ?>
+            <?php echo esc_html(mb_substr($t['name'], 0, 1)); ?>
           </div>
           <div>
             <div class="testimonial-name"><?php echo esc_html($t['name']); ?></div>
