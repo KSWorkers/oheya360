@@ -3,7 +3,7 @@
 <!-- =========================================
    HERO (v2: split layout)
    ========================================= -->
-<section class="hero" id="main-content">
+<section class="hero" id="main-content" tabindex="-1">
   <div class="hero-bg">
     <div class="hero-grid-lines"></div>
     <div class="hero-bg-overlay"></div>

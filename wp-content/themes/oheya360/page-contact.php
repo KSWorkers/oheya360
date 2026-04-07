@@ -6,7 +6,7 @@ get_header();
 ?>
 
 <!-- Page Header -->
-<div class="page-header">
+<div class="page-header" id="main-content" tabindex="-1">
   <div class="page-header-bg"></div>
   <div class="container">
     <div class="page-header-content">

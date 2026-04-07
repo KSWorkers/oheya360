@@ -10,7 +10,7 @@ $categories     = get_the_terms(get_the_ID(), 'work_category');
 ?>
 
 <!-- Work Hero -->
-<div class="work-hero">
+<div class="work-hero" id="main-content" tabindex="-1">
   <div class="page-header-bg"></div>
   <div class="container">
     <nav class="breadcrumb" aria-label="パンくずリスト">

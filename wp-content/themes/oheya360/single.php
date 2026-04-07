@@ -1,7 +1,7 @@
 <?php get_header(); ?>
 <?php while (have_posts()) : the_post(); ?>
 
-<div class="post-hero" id="main-content">
+<div class="post-hero" id="main-content" tabindex="-1">
   <div class="page-header-bg"></div>
   <div class="container container--narrow">
     <nav class="breadcrumb">
