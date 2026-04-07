@@ -415,7 +415,7 @@ function oheya360_post_structured_data() {
             '@type'    => 'CreativeWork',
             'name'     => get_the_title(),
             'url'      => get_permalink(),
-            'image'    => get_the_post_thumbnail_url( get_the_ID(), 'og-image' ) ?: '',
+            'image'    => get_the_post_thumbnail_url( get_the_ID(), 'og-image' ) ?: get_template_directory_uri() . '/assets/images/og-default.jpg',
         ];
     } else {
         $data = [
@@ -425,11 +425,15 @@ function oheya360_post_structured_data() {
             'url'           => get_permalink(),
             'datePublished' => get_the_date('c'),
             'dateModified'  => get_the_modified_date('c'),
-            'image'         => get_the_post_thumbnail_url( get_the_ID(), 'og-image' ) ?: '',
+            'image'         => get_the_post_thumbnail_url( get_the_ID(), 'og-image' ) ?: get_template_directory_uri() . '/assets/images/og-default.jpg',
             'publisher'     => [
                 '@type' => 'Organization',
                 'name'  => 'お部屋360°',
                 'url'   => 'https://oheya360.net',
+            ],
+            'author'    => [
+                '@type' => 'Organization',
+                '@id'   => 'https://oheya360.net/#business',
             ],
         ];
     }
