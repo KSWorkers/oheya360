@@ -23,6 +23,31 @@
   }
 
   // =========================================
+  // モバイル固定 CTA
+  // =========================================
+  const mobileCta   = document.getElementById('mobile-cta-bar');
+  const heroActions = document.querySelector('.hero-actions');
+
+  if (mobileCta && heroActions) {
+    const ctaObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) {
+            mobileCta.classList.add('visible');
+            mobileCta.removeAttribute('aria-hidden');
+          } else {
+            mobileCta.classList.remove('visible');
+            mobileCta.setAttribute('aria-hidden', 'true');
+          }
+        });
+      },
+      { threshold: 0, rootMargin: '0px 0px 0px 0px' }
+    );
+
+    ctaObserver.observe(heroActions);
+  }
+
+  // =========================================
   // ハンバーガーメニュー
   // =========================================
   const hamburger   = document.getElementById('hamburger');

@@ -62,6 +62,14 @@
   </div>
 </footer>
 
+<!-- モバイル固定 CTA -->
+<div class="mobile-cta-bar" id="mobile-cta-bar" aria-hidden="true">
+  <a href="<?php echo esc_url(home_url('/contact/')); ?>" class="mobile-cta-btn">
+    <?php echo oheya360_icon('mail'); ?>
+    無料相談・お見積もり
+  </a>
+</div>
+
 <?php wp_footer(); ?>
 </body>
 </html>
