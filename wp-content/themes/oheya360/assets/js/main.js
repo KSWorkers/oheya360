@@ -114,7 +114,7 @@
       });
 
       // 現在のアイテムをトグル
-      question.setAttribute('aria-expanded', !isOpen);
+      question.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
       answer.classList.toggle('open', !isOpen);
       if (icon) icon.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
     });

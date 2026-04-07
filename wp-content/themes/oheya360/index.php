@@ -499,7 +499,7 @@
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
           </span>
         </button>
-        <div class="faq-answer" style="display:none; padding:0 1.5rem 1.5rem; font-size:0.9375rem; color:var(--color-text-muted); line-height:1.8;">
+        <div class="faq-answer">
           <?php echo esc_html($faq['a']); ?>
         </div>
       </div>
