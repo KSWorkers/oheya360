@@ -264,7 +264,9 @@ function oheya360_ogp_tags() {
     if (is_singular()) {
         $title = get_the_title();
         $url   = get_permalink();
-        $desc  = get_the_excerpt() ?: get_bloginfo('description');
+        $raw_excerpt = get_post_field( 'post_excerpt', get_the_ID() );
+        $raw_content = $raw_excerpt ?: get_post_field( 'post_content', get_the_ID() );
+        $desc        = wp_trim_words( strip_tags( $raw_content ), 30, '...' ) ?: get_bloginfo('description');
         $image = get_the_post_thumbnail_url(null, 'og-image') ?: get_template_directory_uri() . '/assets/images/og-default.jpg';
     } else {
         $title = $site_name;
