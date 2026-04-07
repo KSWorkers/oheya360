@@ -79,7 +79,7 @@
   }
 
   // =========================================
-  // FAQ アコーディオン
+  // FAQ アコーディオン（max-height アニメーション）
   // =========================================
   const faqItems = document.querySelectorAll('.faq-item');
 
@@ -89,6 +89,14 @@
     const icon     = item.querySelector('.faq-icon');
 
     if (!question || !answer) return;
+
+    // 初期化：display:none インラインスタイルを削除（CSS で管理）
+    answer.style.display = '';
+
+    // 初期状態の同期：aria-expanded="true" の場合は open クラスを付与
+    if (question.getAttribute('aria-expanded') === 'true') {
+      answer.classList.add('open');
+    }
 
     question.addEventListener('click', () => {
       const isOpen = question.getAttribute('aria-expanded') === 'true';
@@ -100,14 +108,14 @@
           const otherA = other.querySelector('.faq-answer');
           const otherI = other.querySelector('.faq-icon');
           if (otherQ) otherQ.setAttribute('aria-expanded', 'false');
-          if (otherA) otherA.style.display = 'none';
+          if (otherA) otherA.classList.remove('open');
           if (otherI) otherI.style.transform = 'rotate(0deg)';
         }
       });
 
       // 現在のアイテムをトグル
       question.setAttribute('aria-expanded', !isOpen);
-      answer.style.display  = isOpen ? 'none' : 'block';
+      answer.classList.toggle('open', !isOpen);
       if (icon) icon.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
     });
   });
