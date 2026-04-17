@@ -5,10 +5,28 @@ import os
 import sys
 import json
 import base64
+import ssl
 import urllib.request
 import urllib.error
 from datetime import datetime
 from pathlib import Path
+
+
+def _ssl_context() -> ssl.SSLContext:
+    """macOS python.org ビルドの証明書問題を回避する SSL コンテキストを返す。"""
+    try:
+        import certifi
+        return ssl.create_default_context(cafile=certifi.where())
+    except ImportError:
+        pass
+    ctx = ssl.create_default_context()
+    # macOS: /etc/ssl/cert.pem にシステム証明書がある場合はそちらを使う
+    if os.path.exists("/etc/ssl/cert.pem"):
+        ctx.load_verify_locations("/etc/ssl/cert.pem")
+    return ctx
+
+
+_SSL_CTX = _ssl_context()
 
 
 def load_env(env_path: str):
@@ -46,7 +64,7 @@ def notion_request(path: str, method: str = "GET", body: dict | None = None) -> 
         },
     )
     try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
+        with urllib.request.urlopen(req, timeout=30, context=_SSL_CTX) as resp:
             return json.loads(resp.read())
     except urllib.error.HTTPError as e:
         body_text = e.read().decode()
@@ -131,7 +149,7 @@ def wp_request(path: str, method: str = "GET", body: dict | None = None) -> dict
         },
     )
     try:
-        with urllib.request.urlopen(req, timeout=30) as resp:
+        with urllib.request.urlopen(req, timeout=30, context=_SSL_CTX) as resp:
             return json.loads(resp.read())
     except urllib.error.HTTPError as e:
         body_text = e.read().decode()
