@@ -110,29 +110,27 @@
     </div>
 
     <div class="grid-3">
-      <div class="service-card reveal reveal-delay-1">
+      <?php
+      $default_services = [
+        [ 'icon' => 'cube',     'title' => '3Dバーチャルツアー制作',   'body' => 'Matterportカメラによる高精度な360°撮影。不動産・ホテル・店舗など、あらゆる空間をインタラクティブなバーチャルツアーに変換します。' ],
+        [ 'icon' => 'building', 'title' => 'デジタルツイン構築',       'body' => '実空間の正確な3Dデータを取得し、施設管理・設計・BIMへの活用を可能にするデジタルツインを構築します。' ],
+        [ 'icon' => 'share',    'title' => 'コンテンツ配信・埋め込み', 'body' => '制作したバーチャルツアーをWebサイトやSNSへ最適化して配信。QRコードやリンクでシームレスな体験を提供します。' ],
+      ];
+      $services = get_option( 'oheya360_service', [] );
+      if ( empty( $services ) ) {
+        $services = $default_services;
+      }
+      foreach ( $services as $i => $s ) :
+        $delay_class = $i < 3 ? ' reveal-delay-' . ( $i + 1 ) : '';
+      ?>
+      <div class="service-card reveal<?php echo esc_attr( $delay_class ); ?>">
         <div class="service-icon">
-          <?php echo oheya360_icon('cube'); ?>
+          <?php echo oheya360_icon( esc_attr( $s['icon'] ) ); ?>
         </div>
-        <h3>3Dバーチャルツアー制作</h3>
-        <p>Matterportカメラによる高精度な360°撮影。不動産・ホテル・店舗など、あらゆる空間をインタラクティブなバーチャルツアーに変換します。</p>
+        <h3><?php echo esc_html( $s['title'] ); ?></h3>
+        <p><?php echo esc_html( $s['body'] ); ?></p>
       </div>
-
-      <div class="service-card reveal reveal-delay-2">
-        <div class="service-icon">
-          <?php echo oheya360_icon('building'); ?>
-        </div>
-        <h3>デジタルツイン構築</h3>
-        <p>実空間の正確な3Dデータを取得し、施設管理・設計・BIMへの活用を可能にするデジタルツインを構築します。</p>
-      </div>
-
-      <div class="service-card reveal reveal-delay-3">
-        <div class="service-icon">
-          <?php echo oheya360_icon('share'); ?>
-        </div>
-        <h3>コンテンツ配信・埋め込み</h3>
-        <p>制作したバーチャルツアーをWebサイトやSNSへ最適化して配信。QRコードやリンクでシームレスな体験を提供します。</p>
-      </div>
+      <?php endforeach; ?>
     </div>
   </div>
 </section>
@@ -337,44 +335,34 @@
 
     <div class="testimonials-grid">
       <?php
-      $testimonials = [
-        [
-          'quote'    => 'Matterportの撮影から納品まで非常にスピーディーで、物件のオンライン内見率が大幅に向上しました。問い合わせ数も増加し、費用対効果が高いと感じています。',
-          'name'     => '田中 様',
-          'role'     => '不動産会社 代表',
-          'industry' => '不動産',
-        ],
-        [
-          'quote'    => '店舗のバーチャルツアーをSNSで公開したところ、遠方からの来店客が増えました。撮影当日の対応も丁寧で、スタッフも安心して任せられました。',
-          'name'     => '山田 様',
-          'role'     => '飲食店オーナー',
-          'industry' => '飲食',
-        ],
-        [
-          'quote'    => '採用活動でオフィスツアーを活用しています。候補者がオフィスの雰囲気を事前に把握できるため、入社後のギャップが減り定着率が改善されました。',
-          'name'     => '鈴木 様',
-          'role'     => '人事部長',
-          'industry' => 'IT企業',
-        ],
+      $default_testimonials = [
+        [ 'quote' => 'Matterportの撮影から納品まで非常にスピーディーで、物件のオンライン内見率が大幅に向上しました。問い合わせ数も増加し、費用対効果が高いと感じています。', 'name' => '田中 様', 'role' => '不動産会社 代表', 'industry' => '不動産' ],
+        [ 'quote' => '店舗のバーチャルツアーをSNSで公開したところ、遠方からの来店客が増えました。撮影当日の対応も丁寧で、スタッフも安心して任せられました。',              'name' => '山田 様', 'role' => '飲食店オーナー',   'industry' => '飲食'  ],
+        [ 'quote' => '採用活動でオフィスツアーを活用しています。候補者がオフィスの雰囲気を事前に把握できるため、入社後のギャップが減り定着率が改善されました。',          'name' => '鈴木 様', 'role' => '人事部長',         'industry' => 'IT企業' ],
       ];
+      $testimonials = get_option( 'oheya360_testimonial', [] );
+      if ( empty( $testimonials ) ) {
+        $testimonials = $default_testimonials;
+      }
       foreach ( $testimonials as $i => $t ) :
+        $delay_class = $i < 3 ? ' reveal-delay-' . ( $i + 1 ) : '';
       ?>
-      <div class="testimonial-card reveal reveal-delay-<?php echo $i + 1; ?>">
+      <div class="testimonial-card reveal<?php echo esc_attr( $delay_class ); ?>">
         <div class="testimonial-quote">
           <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true">
             <path d="M9.5 14C7 14 5 16 5 18.5C5 21 7 23 9.5 23C12 23 14 21 14 18.5C14 16 12 14 9.5 14ZM9.5 14C9.5 10 12 7 16 6M22.5 14C20 14 18 16 18 18.5C18 21 20 23 22.5 23C25 23 27 21 27 18.5C27 16 25 14 22.5 14ZM22.5 14C22.5 10 25 7 29 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
           </svg>
         </div>
-        <p class="testimonial-text"><?php echo esc_html($t['quote']); ?></p>
+        <p class="testimonial-text"><?php echo esc_html( $t['quote'] ); ?></p>
         <div class="testimonial-author">
           <div class="testimonial-avatar" aria-hidden="true">
-            <?php echo esc_html(mb_substr($t['name'], 0, 1)); ?>
+            <?php echo esc_html( mb_substr( $t['name'], 0, 1 ) ); ?>
           </div>
           <div>
-            <div class="testimonial-name"><?php echo esc_html($t['name']); ?></div>
-            <div class="testimonial-role"><?php echo esc_html($t['role']); ?></div>
+            <div class="testimonial-name"><?php echo esc_html( $t['name'] ); ?></div>
+            <div class="testimonial-role"><?php echo esc_html( $t['role'] ); ?></div>
           </div>
-          <span class="tag" style="margin-left:auto;"><?php echo esc_html($t['industry']); ?></span>
+          <span class="tag" style="margin-left:auto;"><?php echo esc_html( $t['industry'] ); ?></span>
         </div>
       </div>
       <?php endforeach; ?>
@@ -394,133 +382,83 @@
     </div>
 
     <div class="pricing-grid">
-
-      <!-- ライト -->
-      <div class="pricing-card reveal reveal-delay-1">
-        <div class="pricing-tier">Light</div>
-        <div class="pricing-name">ライト</div>
+      <?php
+      $default_pricing = [
+        [
+          'tier'      => 'Light',
+          'title'     => 'ライト',
+          'price'     => 39800,
+          'featured'  => false,
+          'badge'     => '',
+          'features'  => [ '撮影面積100㎡まで', 'Matterport 3Dモデル作成', '埋め込みコード納品', 'QRコード生成', '納品後30日サポート' ],
+          'cta_text'  => 'ライトプランで相談する',
+          'cta_slug'  => 'light',
+          'cta_class' => 'btn--outline',
+        ],
+        [
+          'tier'      => 'Standard',
+          'title'     => 'スタンダード',
+          'price'     => 79800,
+          'featured'  => true,
+          'badge'     => '人気No.1',
+          'features'  => [ '撮影面積300㎡まで', 'Matterport 3Dモデル作成', '埋め込みコード納品', '平面図・間取り図作成', 'QRコード生成', 'サイト埋め込みサポート', '納品後60日サポート' ],
+          'cta_text'  => 'スタンダードで始める',
+          'cta_slug'  => 'standard',
+          'cta_class' => 'btn--primary',
+        ],
+        [
+          'tier'      => 'Premium',
+          'title'     => 'プレミアム',
+          'price'     => 0,
+          'featured'  => false,
+          'badge'     => '',
+          'features'  => [ '撮影面積300㎡以上', 'Matterport 3Dモデル作成', '複数拠点・大規模施設対応', 'BIM・CAD連携データ', 'Googleストリートビュー登録', '専任担当者によるサポート', '長期サポート・保守契約' ],
+          'cta_text'  => 'プレミアム見積もりを依頼',
+          'cta_slug'  => 'premium',
+          'cta_class' => 'btn--outline',
+        ],
+      ];
+      $pricing = get_option( 'oheya360_pricing', [] );
+      if ( empty( $pricing ) ) {
+        $pricing = $default_pricing;
+      }
+      foreach ( $pricing as $i => $plan ) :
+        $delay_class    = $i < 3 ? ' reveal-delay-' . ( $i + 1 ) : '';
+        $featured_class = ! empty( $plan['featured'] ) ? ' pricing-card--featured' : '';
+      ?>
+      <div class="pricing-card<?php echo esc_attr( $featured_class . ' reveal' . $delay_class ); ?>">
+        <?php if ( ! empty( $plan['badge'] ) ) : ?>
+        <div class="pricing-badge"><?php echo esc_html( $plan['badge'] ); ?></div>
+        <?php endif; ?>
+        <div class="pricing-tier"><?php echo esc_html( $plan['tier'] ); ?></div>
+        <div class="pricing-name"><?php echo esc_html( $plan['title'] ); ?></div>
         <div class="pricing-price">
-          <span class="pricing-price-from">税別</span>
-          <span class="pricing-price-amount">¥39,800</span>
-          <span class="pricing-price-unit">〜</span>
+          <?php if ( ! empty( $plan['price'] ) ) : ?>
+            <span class="pricing-price-from">税別</span>
+            <span class="pricing-price-amount">¥<?php echo number_format( intval( $plan['price'] ) ); ?></span>
+            <span class="pricing-price-unit">〜</span>
+          <?php else : ?>
+            <span class="pricing-price-amount" style="font-size:1.75rem;">要見積もり</span>
+          <?php endif; ?>
         </div>
+        <?php if ( ! empty( $plan['features'] ) ) : ?>
         <ul class="pricing-features">
+          <?php foreach ( (array) $plan['features'] as $feature ) : ?>
           <li class="pricing-feature">
-            <span class="pricing-feature-icon"><?php echo oheya360_icon('check'); ?></span>
-            撮影面積100㎡まで
+            <span class="pricing-feature-icon"><?php echo oheya360_icon( 'check' ); ?></span>
+            <?php echo esc_html( $feature ); ?>
           </li>
-          <li class="pricing-feature">
-            <span class="pricing-feature-icon"><?php echo oheya360_icon('check'); ?></span>
-            Matterport 3Dモデル作成
-          </li>
-          <li class="pricing-feature">
-            <span class="pricing-feature-icon"><?php echo oheya360_icon('check'); ?></span>
-            埋め込みコード納品
-          </li>
-          <li class="pricing-feature">
-            <span class="pricing-feature-icon"><?php echo oheya360_icon('check'); ?></span>
-            QRコード生成
-          </li>
-          <li class="pricing-feature">
-            <span class="pricing-feature-icon"><?php echo oheya360_icon('check'); ?></span>
-            納品後30日サポート
-          </li>
+          <?php endforeach; ?>
         </ul>
-        <a href="<?php echo esc_url(home_url('/contact/?plan=light')); ?>" class="btn btn--outline" style="width:100%;justify-content:center;">
-          ライトプランで相談する
-          <?php echo oheya360_icon('arrow-right'); ?>
+        <?php endif; ?>
+        <a href="<?php echo esc_url( home_url( '/contact/?plan=' . sanitize_key( $plan['cta_slug'] ) ) ); ?>"
+           class="btn <?php echo esc_attr( $plan['cta_class'] ); ?>"
+           style="width:100%;justify-content:center;">
+          <?php echo esc_html( $plan['cta_text'] ); ?>
+          <?php echo oheya360_icon( 'arrow-right' ); ?>
         </a>
       </div>
-
-      <!-- スタンダード（おすすめ） -->
-      <div class="pricing-card pricing-card--featured reveal reveal-delay-2">
-        <div class="pricing-badge">人気No.1</div>
-        <div class="pricing-tier">Standard</div>
-        <div class="pricing-name">スタンダード</div>
-        <div class="pricing-price">
-          <span class="pricing-price-from">税別</span>
-          <span class="pricing-price-amount">¥79,800</span>
-          <span class="pricing-price-unit">〜</span>
-        </div>
-        <ul class="pricing-features">
-          <li class="pricing-feature">
-            <span class="pricing-feature-icon"><?php echo oheya360_icon('check'); ?></span>
-            撮影面積300㎡まで
-          </li>
-          <li class="pricing-feature">
-            <span class="pricing-feature-icon"><?php echo oheya360_icon('check'); ?></span>
-            Matterport 3Dモデル作成
-          </li>
-          <li class="pricing-feature">
-            <span class="pricing-feature-icon"><?php echo oheya360_icon('check'); ?></span>
-            埋め込みコード納品
-          </li>
-          <li class="pricing-feature">
-            <span class="pricing-feature-icon"><?php echo oheya360_icon('check'); ?></span>
-            平面図・間取り図作成
-          </li>
-          <li class="pricing-feature">
-            <span class="pricing-feature-icon"><?php echo oheya360_icon('check'); ?></span>
-            QRコード生成
-          </li>
-          <li class="pricing-feature">
-            <span class="pricing-feature-icon"><?php echo oheya360_icon('check'); ?></span>
-            サイト埋め込みサポート
-          </li>
-          <li class="pricing-feature">
-            <span class="pricing-feature-icon"><?php echo oheya360_icon('check'); ?></span>
-            納品後60日サポート
-          </li>
-        </ul>
-        <a href="<?php echo esc_url(home_url('/contact/?plan=standard')); ?>" class="btn btn--primary" style="width:100%;justify-content:center;">
-          スタンダードで始める
-          <?php echo oheya360_icon('arrow-right'); ?>
-        </a>
-      </div>
-
-      <!-- プレミアム -->
-      <div class="pricing-card reveal reveal-delay-3">
-        <div class="pricing-tier">Premium</div>
-        <div class="pricing-name">プレミアム</div>
-        <div class="pricing-price">
-          <span class="pricing-price-amount" style="font-size:1.75rem;">要見積もり</span>
-        </div>
-        <ul class="pricing-features">
-          <li class="pricing-feature">
-            <span class="pricing-feature-icon"><?php echo oheya360_icon('check'); ?></span>
-            撮影面積300㎡以上
-          </li>
-          <li class="pricing-feature">
-            <span class="pricing-feature-icon"><?php echo oheya360_icon('check'); ?></span>
-            Matterport 3Dモデル作成
-          </li>
-          <li class="pricing-feature">
-            <span class="pricing-feature-icon"><?php echo oheya360_icon('check'); ?></span>
-            複数拠点・大規模施設対応
-          </li>
-          <li class="pricing-feature">
-            <span class="pricing-feature-icon"><?php echo oheya360_icon('check'); ?></span>
-            BIM・CAD連携データ
-          </li>
-          <li class="pricing-feature">
-            <span class="pricing-feature-icon"><?php echo oheya360_icon('check'); ?></span>
-            Googleストリートビュー登録
-          </li>
-          <li class="pricing-feature">
-            <span class="pricing-feature-icon"><?php echo oheya360_icon('check'); ?></span>
-            専任担当者によるサポート
-          </li>
-          <li class="pricing-feature">
-            <span class="pricing-feature-icon"><?php echo oheya360_icon('check'); ?></span>
-            長期サポート・保守契約
-          </li>
-        </ul>
-        <a href="<?php echo esc_url(home_url('/contact/?plan=premium')); ?>" class="btn btn--outline" style="width:100%;justify-content:center;">
-          プレミアム見積もりを依頼
-          <?php echo oheya360_icon('arrow-right'); ?>
-        </a>
-      </div>
-
+      <?php endforeach; ?>
     </div>
 
     <p class="pricing-note text-center">
@@ -541,26 +479,29 @@
 
     <div id="faq-list" style="display:flex; flex-direction:column; gap:1rem;">
       <?php
-      $faqs = [
-        ['q' => 'どのような空間に対応していますか？', 'a' => '不動産（マンション・一戸建て・オフィス）、ホテル・旅館、飲食店・小売店、医療施設、工場・倉庫など、あらゆる空間に対応しています。まずはお気軽にご相談ください。'],
-        ['q' => '撮影から納品までどのくらいかかりますか？', 'a' => '撮影後、通常3〜5営業日でデータが完成します。お急ぎの場合は最短翌日納品も対応可能です（別途料金）。'],
-        ['q' => '料金はどのように決まりますか？', 'a' => '空間の広さ（㎡数）や撮影箇所数によって異なります。まずはお問い合わせフォームからご連絡いただければ、無料でお見積もりいたします。'],
-        ['q' => '遠方でも対応してもらえますか？', 'a' => '全国対応しています。交通費・出張費が別途かかる場合がありますが、詳細はお問い合わせください。'],
-        ['q' => 'Matterportのデータはどのように活用できますか？', 'a' => 'Webサイトへの埋め込み、QRコードによる案内、間取り図や平面図の自動生成、Googleストリートビューとの連携など、多彩な活用が可能です。'],
+      $default_faqs = [
+        [ 'q' => 'どのような空間に対応していますか？',             'a' => '不動産（マンション・一戸建て・オフィス）、ホテル・旅館、飲食店・小売店、医療施設、工場・倉庫など、あらゆる空間に対応しています。まずはお気軽にご相談ください。' ],
+        [ 'q' => '撮影から納品までどのくらいかかりますか？',       'a' => '撮影後、通常3〜5営業日でデータが完成します。お急ぎの場合は最短翌日納品も対応可能です（別途料金）。' ],
+        [ 'q' => '料金はどのように決まりますか？',                 'a' => '空間の広さ（㎡数）や撮影箇所数によって異なります。まずはお問い合わせフォームからご連絡いただければ、無料でお見積もりいたします。' ],
+        [ 'q' => '遠方でも対応してもらえますか？',                 'a' => '全国対応しています。交通費・出張費が別途かかる場合がありますが、詳細はお問い合わせください。' ],
+        [ 'q' => 'Matterportのデータはどのように活用できますか？', 'a' => 'Webサイトへの埋め込み、QRコードによる案内、間取り図や平面図の自動生成、Googleストリートビューとの連携など、多彩な活用が可能です。' ],
       ];
-
-      foreach ($faqs as $i => $faq) :
+      $faqs = get_option( 'oheya360_faq', [] );
+      if ( empty( $faqs ) ) {
+        $faqs = $default_faqs;
+      }
+      foreach ( $faqs as $i => $faq ) :
       ?>
       <div class="faq-item reveal" style="background:var(--color-bg-card); border:1px solid var(--color-border); border-radius:var(--radius-md); overflow:hidden;">
         <button class="faq-question" aria-expanded="false"
           style="width:100%; display:flex; justify-content:space-between; align-items:center; padding:1.5rem; text-align:left; font-size:1rem; font-weight:600; color:var(--color-text); background:none; border:none; cursor:pointer; gap:1rem; font-family:var(--font-sans);">
-          <?php echo esc_html($faq['q']); ?>
+          <?php echo esc_html( $faq['q'] ); ?>
           <span class="faq-icon" style="flex-shrink:0; color:var(--color-accent); transition:transform 0.3s ease;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
           </span>
         </button>
         <div class="faq-answer">
-          <?php echo esc_html($faq['a']); ?>
+          <?php echo esc_html( $faq['a'] ); ?>
         </div>
       </div>
       <?php endforeach; ?>
