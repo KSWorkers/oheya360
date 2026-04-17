@@ -445,3 +445,172 @@ function oheya360_post_structured_data() {
     echo '<script type="application/ld+json">' . wp_json_encode( $data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES ) . '</script>' . "\n";
 }
 add_action('wp_head', 'oheya360_post_structured_data');
+
+// =========================================
+// Notion 同期 REST API
+// =========================================
+
+add_action( 'rest_api_init', 'oheya360_register_sync_endpoints' );
+
+function oheya360_register_sync_endpoints() {
+	register_rest_route(
+		'oheya360/v1',
+		'/sync',
+		[
+			'methods'             => 'POST',
+			'callback'            => 'oheya360_handle_sync',
+			'permission_callback' => function () {
+				return current_user_can( 'manage_options' );
+			},
+		]
+	);
+
+	register_rest_route(
+		'oheya360/v1',
+		'/sync-status',
+		[
+			'methods'             => 'GET',
+			'callback'            => 'oheya360_get_sync_status',
+			'permission_callback' => function () {
+				return current_user_can( 'manage_options' );
+			},
+		]
+	);
+}
+
+function oheya360_handle_sync( WP_REST_Request $request ) {
+	$body  = $request->get_json_params();
+	$type  = isset( $body['type'] ) ? sanitize_key( $body['type'] ) : '';
+	$items = isset( $body['items'] ) && is_array( $body['items'] ) ? $body['items'] : [];
+
+	$allowed_types = [ 'pricing', 'faq', 'testimonial', 'service' ];
+	if ( ! in_array( $type, $allowed_types, true ) ) {
+		return new WP_Error( 'invalid_type', 'Invalid content type.', [ 'status' => 400 ] );
+	}
+
+	$sanitized = array_map( 'oheya360_sanitize_sync_item', $items );
+
+	update_option( 'oheya360_' . $type, $sanitized, false );
+
+	$synced_at = current_time( 'Y-m-d H:i:s' );
+	update_option( 'oheya360_last_synced_' . $type, $synced_at, false );
+
+	$log = get_option( 'oheya360_sync_log', [] );
+	array_unshift( $log, [
+		'type'      => $type,
+		'count'     => count( $sanitized ),
+		'synced_at' => $synced_at,
+	] );
+	update_option( 'oheya360_sync_log', array_slice( $log, 0, 10 ), false );
+
+	return rest_ensure_response( [
+		'success'   => true,
+		'type'      => $type,
+		'updated'   => count( $sanitized ),
+		'synced_at' => $synced_at,
+	] );
+}
+
+function oheya360_sanitize_sync_item( $item ) {
+	return [
+		'title'    => isset( $item['title'] )    ? sanitize_text_field( $item['title'] )        : '',
+		'body'     => isset( $item['body'] )      ? wp_kses_post( $item['body'] )                : '',
+		'order'    => isset( $item['order'] )     ? intval( $item['order'] )                     : 0,
+		'price'    => isset( $item['price'] )     ? intval( $item['price'] )                     : 0,
+		'meta'     => isset( $item['meta'] )      ? sanitize_textarea_field( $item['meta'] )     : '',
+		'name'     => isset( $item['name'] )      ? sanitize_text_field( $item['name'] )         : '',
+		'role'     => isset( $item['role'] )      ? sanitize_text_field( $item['role'] )         : '',
+		'industry' => isset( $item['industry'] )  ? sanitize_text_field( $item['industry'] )     : '',
+		'q'        => isset( $item['q'] )         ? sanitize_text_field( $item['q'] )            : '',
+		'a'        => isset( $item['a'] )         ? sanitize_textarea_field( $item['a'] )        : '',
+		'tier'     => isset( $item['tier'] )      ? sanitize_text_field( $item['tier'] )         : '',
+		'features' => isset( $item['features'] ) && is_array( $item['features'] )
+		              ? array_map( 'sanitize_text_field', $item['features'] )
+		              : [],
+		'cta_text' => isset( $item['cta_text'] )  ? sanitize_text_field( $item['cta_text'] )     : '',
+		'cta_slug' => isset( $item['cta_slug'] )  ? sanitize_text_field( $item['cta_slug'] )     : '',
+		'cta_class'=> isset( $item['cta_class'] ) ? sanitize_html_class( $item['cta_class'] )    : 'btn--outline',
+		'featured' => isset( $item['featured'] )  ? (bool) $item['featured']                     : false,
+		'badge'    => isset( $item['badge'] )     ? sanitize_text_field( $item['badge'] )        : '',
+		'icon'     => isset( $item['icon'] )      ? sanitize_key( $item['icon'] )                : '',
+	];
+}
+
+function oheya360_get_sync_status() {
+	$types  = [ 'pricing', 'faq', 'testimonial', 'service' ];
+	$status = [];
+	foreach ( $types as $type ) {
+		$status[ $type ] = get_option( 'oheya360_last_synced_' . $type, '未同期' );
+	}
+	return rest_ensure_response( [
+		'last_synced' => $status,
+		'log'         => get_option( 'oheya360_sync_log', [] ),
+	] );
+}
+
+// =========================================
+// Notion 同期 管理画面
+// =========================================
+
+add_action( 'admin_menu', 'oheya360_admin_menu' );
+
+function oheya360_admin_menu() {
+	add_management_page(
+		'Notion 同期',
+		'Notion 同期',
+		'manage_options',
+		'oheya360-notion-sync',
+		'oheya360_admin_page'
+	);
+}
+
+function oheya360_admin_page() {
+	$types = [
+		'pricing'     => '料金プラン',
+		'faq'         => 'FAQ',
+		'testimonial' => 'テスティモニアル',
+		'service'     => 'サービス',
+	];
+	$log = get_option( 'oheya360_sync_log', [] );
+	?>
+	<div class="wrap">
+		<h1>Notion 同期ダッシュボード</h1>
+		<p>同期を実行するには Claude Code で <code>/sync-oheya360</code> を実行してください。</p>
+
+		<h2>最終同期日時</h2>
+		<table class="widefat striped" style="max-width:600px;">
+			<thead>
+				<tr><th>コンテンツ</th><th>最終同期</th></tr>
+			</thead>
+			<tbody>
+			<?php foreach ( $types as $key => $label ) : ?>
+				<tr>
+					<td><?php echo esc_html( $label ); ?></td>
+					<td><?php echo esc_html( get_option( 'oheya360_last_synced_' . $key, '未同期' ) ); ?></td>
+				</tr>
+			<?php endforeach; ?>
+			</tbody>
+		</table>
+
+		<h2 style="margin-top:2rem;">同期ログ（直近10件）</h2>
+		<?php if ( empty( $log ) ) : ?>
+			<p>まだ同期ログはありません。</p>
+		<?php else : ?>
+		<table class="widefat striped" style="max-width:600px;">
+			<thead>
+				<tr><th>タイプ</th><th>件数</th><th>日時</th></tr>
+			</thead>
+			<tbody>
+			<?php foreach ( $log as $entry ) : ?>
+				<tr>
+					<td><?php echo esc_html( $entry['type'] ); ?></td>
+					<td><?php echo esc_html( $entry['count'] ); ?></td>
+					<td><?php echo esc_html( $entry['synced_at'] ); ?></td>
+				</tr>
+			<?php endforeach; ?>
+			</tbody>
+		</table>
+		<?php endif; ?>
+	</div>
+	<?php
+}
