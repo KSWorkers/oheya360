@@ -1,4 +1,4 @@
 .superpowers/
-.superpowers/
-.superpowers/
 .env
+__pycache__/
+*.pyc
