@@ -4,7 +4,7 @@ oheya360.net の Notion コンテンツデータベースから WordPress へコ
 
 ## 事前確認
 
-以下の環境変数が設定されていることを確認してください（`/Users/k.s.workers/Claude-cowork/oheya360/.env` を参照）:
+以下の環境変数が設定されていることを確認してください（リポジトリルートの `.env` を参照）:
 - `NOTION_TOKEN`
 - `NOTION_CONTENT_DB_ID`
 - `NOTION_BLOG_DB_ID`

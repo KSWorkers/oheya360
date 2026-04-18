@@ -521,6 +521,7 @@ function oheya360_sanitize_sync_item( $item ) {
 		'name'     => isset( $item['name'] )      ? sanitize_text_field( $item['name'] )         : '',
 		'role'     => isset( $item['role'] )      ? sanitize_text_field( $item['role'] )         : '',
 		'industry' => isset( $item['industry'] )  ? sanitize_text_field( $item['industry'] )     : '',
+		'quote'    => isset( $item['quote'] )     ? sanitize_textarea_field( $item['quote'] )    : '',
 		'q'        => isset( $item['q'] )         ? sanitize_text_field( $item['q'] )            : '',
 		'a'        => isset( $item['a'] )         ? sanitize_textarea_field( $item['a'] )        : '',
 		'tier'     => isset( $item['tier'] )      ? sanitize_text_field( $item['tier'] )         : '',
